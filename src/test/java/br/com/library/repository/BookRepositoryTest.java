@@ -1,4 +1,4 @@
-package br.com.library.repositories;
+package br.com.library.repository;
 
 import br.com.library.models.Book;
 import org.junit.Test;
@@ -9,11 +9,11 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
-public class BooksTest {
+public class BookRepositoryTest {
 
     @Test
     public void createBooksTest() {
-        Books booksRepository = new Books();
+        BookRepository booksRepository = new BookRepository();
         List<Book> books= booksRepository.all();
 
         assertThat(booksRepository.createPredefinedBooks().size(), is(3));

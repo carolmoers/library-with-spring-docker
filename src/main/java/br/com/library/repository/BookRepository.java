@@ -1,14 +1,14 @@
-package br.com.library.repositories;
+package br.com.library.repository;
 
 import br.com.library.models.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Books {
+public class BookRepository {
     private List<Book> books;
 
-    public Books() {
+    public BookRepository() {
         this.books = new ArrayList<Book>();
     }
 

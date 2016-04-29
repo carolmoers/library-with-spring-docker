@@ -1,7 +1,7 @@
 package br.com.library.controllers;
 
 import br.com.library.models.Book;
-import br.com.library.repositories.Books;
+import br.com.library.repository.BookRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,25 +18,25 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class BooksControllerTest {
 
     @Mock
-    Books booksRepository;
+    BookRepository bookRepository;
 
     BooksController controller;
 
     @Before
     public void setUp() {
         initMocks(this);
-        this.controller = new BooksController(booksRepository);
+        this.controller = new BooksController(bookRepository);
     }
 
     @Test
     public void shouldReturnAllPredefinedBooks() {
-        when(booksRepository.all()).thenReturn(predefinedBooks());
+        when(bookRepository.all()).thenReturn(predefinedBooks());
 
         List<Book> books = controller.listBooks();
 
         assertThat(books.size(), is(predefinedBooks().size()));
 
-        verify(booksRepository).all();
+        verify(bookRepository).all();
     }
 
     private List<Book> predefinedBooks() {
