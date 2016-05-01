@@ -14,9 +14,10 @@ public class BookRepositoryTest {
     @Test
     public void createBooksTest() {
         BookRepository booksRepository = new BookRepository();
+        booksRepository.createPredefinedBooks();
         List<Book> books= booksRepository.all();
 
-        assertThat(booksRepository.createPredefinedBooks().size(), is(3));
+        assertThat(books.size(), is(3));
 
         assertThat(1, is(equalTo(books.get(0).getCode())));
         assertThat("The Pragmatic Programmer", is(equalTo(books.get(0).getTitle())));
