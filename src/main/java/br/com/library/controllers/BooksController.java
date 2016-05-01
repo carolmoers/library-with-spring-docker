@@ -10,18 +10,17 @@ import java.util.List;
 
 @RestController
 public class BooksController {
-
-    private BookRepository books;
+    private BookRepository booksRepository;
 
     @Autowired
     public BooksController(BookRepository booksRepository) {
-        this.books = booksRepository;
+        this.booksRepository = booksRepository;
     }
 
     @RequestMapping("/books-list")
     public List<Book> listBooks() {
-        this.books.createPredefinedBooks();
+        this.booksRepository.createPredefinedBooks();
 
-        return this.books.all();
+        return this.booksRepository.all();
     }
 }
