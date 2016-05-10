@@ -39,8 +39,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    functionalTestCompile('org.seleniumhq.selenium:selenium-java:2.41.0')
-    functionalTestCompile('org.fluentlenium:fluentlenium:0.5.4')
+    testCompile('junit:junit:4.12')
+    testCompile('org.mockito:mockito-all:1.9.5')
+    testCompile('org.hamcrest:hamcrest-core:1.3')
+    testCompile('org.seleniumhq.selenium:selenium-java:2.41.0')
 }
 
 task wrapper(type: Wrapper) {
@@ -51,6 +53,22 @@ task functionalTest(type: Test) {
     testClassesDir = sourceSets.functionalTest.output.classesDir
     classpath = sourceSets.functionalTest.runtimeClasspath
     outputs.upToDateWhen { false }
+}
+
+task appJar(type: Copy, dependsOn: build) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+
+task buildDocker(type: Exec, dependsOn: appJar) {
+    commandLine "docker", "build","-t", "library", "-f", "infrastructure/docker/Dockerfile", "."
+}
+
+task runDocker(type: Exec, dependsOn: buildDocker) {
+    commandLine "docker", "run","-d", "-p", "8080:8080", "-t", "library"
 }
 
 check.dependsOn functionalTest
