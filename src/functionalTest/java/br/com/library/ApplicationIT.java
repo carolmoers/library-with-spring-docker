@@ -4,18 +4,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import static org.fest.assertions.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringContains.containsString;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -37,7 +38,7 @@ public class ApplicationIT{
     @Test
     public void hasPageTitle() {
         this.webDriver.get(getUrl());
-        assertThat(webDriver.getTitle()).isEqualTo("Library");
+        assertThat(webDriver.getTitle(), is("Library"));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class ApplicationIT{
 
         WebElement firstBook = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("book")));
 
-        assertThat(firstBook.getText()).contains("The Pragmatic Programmer");
+        assertThat(firstBook.getText(), containsString("The Pragmatic Programmer"));
     }
 
     @After
