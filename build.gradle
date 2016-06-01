@@ -72,6 +72,22 @@ task runDocker(type: Exec, dependsOn: buildDocker) {
     commandLine "docker", "run","-d", "-p", "8080:8080", "-t", "library"
 }
 
+task buildGoServer(type: Exec) {
+    commandLine "docker", "build","-t", "go-server", "-f", "infrastructure/go/go-server/Dockerfile", "."
+}
+
+task runGoServer(type: Exec) {
+    commandLine "docker", "run", "-d", "--name", "go-server", "-p", "8153:8153", "-t", "go-server"
+}
+
+task buildGoAgent(type: Exec) {
+    commandLine "docker", "build","-t", "go-agent", "-f", "infrastructure/go/go-agent/Dockerfile", "."
+}
+
+task runGoAgent(type: Exec) {
+    commandLine "docker", "run","-d", "--name", "go-agent", "--link", "go-server:go-server", "-t", "go-agent"
+}
+
 check.dependsOn functionalTest
 functionalTest.mustRunAfter test
 

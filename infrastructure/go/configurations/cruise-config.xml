@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="75">
+<server artifactsdir="artifacts" commandRepositoryLocation="default" serverId="" />
+<pipelines group="LibraryDocker">
+    <pipeline name="Library">
+        <materials>
+            <git url="https://github.com/carolmoers/library-with-spring-docker" />
+        </materials>
+        <stage name="Build">
+            <jobs>
+                <job name="Build">
+                    <tasks>
+                        <exec command="./gradlew">
+                            <arg>build</arg>
+                        </exec>
+                    </tasks>
+                </job>
+            </jobs>
+        </stage>
+        <stage name="UnitTest">
+            <jobs>
+                <job name="UnitTest">
+                    <tasks>
+                        <exec command="./gradlew">
+                            <arg>test</arg>
+                        </exec>
+                    </tasks>
+                </job>
+            </jobs>
+        </stage>
+        <stage name="FunctionalTests">
+            <jobs>
+                <job name="FunctionalTests">
+                    <tasks>
+                        <exec command="./gradlew">
+                            <arg>functionalTest</arg>
+                        </exec>
+                    </tasks>
+                </job>
+            </jobs>
+        </stage>
+        <stage name="Deploy">
+            <jobs>
+                <job name="Deploy">
+                    <tasks>
+                        <exec command="./gradlew">
+                            <arg>runDocker</arg>
+                            <runif status="passed" />
+                        </exec>
+                    </tasks>
+                </job>
+            </jobs>
+        </stage>
+    </pipeline>
+</pipelines>
+</cruise>
