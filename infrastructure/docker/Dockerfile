@@ -1,5 +1,3 @@
-FROM frolvlad/alpine-oraclejdk8:slim
-VOLUME /tmp
+FROM java:openjdk-8-jdk
 ADD app.jar app.jar
-RUN sh -c 'touch /app.jar'
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-jar","/app.jar"]
+CMD java -jar app.jar
